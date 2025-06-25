@@ -36,6 +36,7 @@ const auth = {
 };
 
 async function authFetch(url, options = {}) {
+    const token = auth.getToken(); // Añade esta línea
     try {
         const response = await fetch(url, {
             ...options,
@@ -138,19 +139,21 @@ async function handleRegister(e) {
 }
 
 function checkAuth() {
-    const authPages = ['login.html', 'register.html'];
-    const isAuthPage = authPages.some(page => window.location.pathname.includes(page));
-
-    if (!auth.isAuthenticated() && !isAuthPage) {
+    const currentPage = window.location.pathname.split('/').pop();
+    const authPages = ['index.html', 'register.html']; // index.html es ahora tu página de login
+    
+    // Si no está autenticado y no está en una página de auth
+    if (!auth.isAuthenticated() && !authPages.includes(currentPage)) {
         window.location.replace('index.html');
         return false;
     }
-
-    if (auth.isAuthenticated() && isAuthPage) {
-        window.location.replace('index.html');
+    
+    // Si está autenticado y está en una página de auth
+    if (auth.isAuthenticated() && authPages.includes(currentPage)) {
+        window.location.replace('dashboard.html'); // Redirige al dashboard
         return false;
     }
-
+    
     return true;
 }
 
