@@ -130,7 +130,7 @@ async function handleRegister(e) {
         // Muestra mensaje de éxito y redirige al login
         showError('register-error', '¡Registro exitoso! Redirigiendo...');
         setTimeout(() => {
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
         }, 1500);
 
     } catch (error) {
