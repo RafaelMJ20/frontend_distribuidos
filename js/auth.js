@@ -142,7 +142,7 @@ function checkAuth() {
     const isAuthPage = authPages.some(page => window.location.pathname.includes(page));
 
     if (!auth.isAuthenticated() && !isAuthPage) {
-        window.location.replace('login.html');
+        window.location.replace('index.html');
         return false;
     }
 
