@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "start": "serve -s . -l $PORT",
+        "start": "serve -s . -l $PORT --single",
         "build": "echo 'Build no requerido' && exit 0",
         "predeploy": "npm run build",
         "deploy": "echo 'Desplegado en Render'"
