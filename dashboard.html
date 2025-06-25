@@ -143,51 +143,43 @@
         }
 
         // Reemplaza tu función cargarSubastas() con esta versión simplificada
-async function cargarSubastas() {
-    try {
-        const token = localStorage.getItem('jwt_token');
-        const res = await fetch(API_URL, {
-            headers: {
-                'Authorization': `Bearer ${token}`
+        async function cargarSubastas() {
+            try {
+                const res = await fetch(API_URL);
+                if (!res.ok) throw new Error('Error cargando subastas');
+                const subastas = await res.json();
+
+                const tbody = document.getElementById('auction-body');
+                tbody.innerHTML = '';
+
+                subastas.forEach(subasta => {
+                    const ahora = new Date();
+                    const fin = new Date(subasta.endTime);
+                    const estaActiva = fin > ahora;
+
+                    const fila = document.createElement('tr');
+                    fila.innerHTML = `
+            <td>${subasta.title}</td>
+            <td>${subasta.description}</td>
+            <td>$${subasta.currentBid}</td>
+            <td>${fin.toLocaleString()}</td>
+            <td>
+              ${estaActiva
+                            ? `<div class="d-flex gap-2">
+                    <input type="number" class="form-control" min="${subasta.currentBid + 1}" placeholder="Oferta" />
+                    <button class="btn btn-success" onclick="hacerOferta('${subasta._id}', this)">Ofertar</button>
+                  </div>`
+                            : '<span class="text-muted">Cerrada</span>'
+                        }
+            </td>
+          `;
+                    tbody.appendChild(fila);
+                });
+            } catch (error) {
+                alert('Error al cargar subastas');
+                console.error(error);
             }
-        });
-        
-        if (!res.ok) throw new Error('Error cargando subastas');
-        const subastas = await res.json();
-
-        const tbody = document.getElementById('auction-body');
-        tbody.innerHTML = '';
-
-        subastas.forEach(subasta => {
-            const ahora = new Date();
-            const fin = new Date(subasta.endTime);
-            const estaActiva = fin > ahora;
-
-            const fila = document.createElement('tr');
-            fila.innerHTML = `
-                <td>${subasta.title}</td>
-                <td>${subasta.description}</td>
-                <td>$${subasta.currentBid}</td>
-                <td>${fin.toLocaleString()}</td>
-                <td>
-                    ${estaActiva
-                        ? `<div class="d-flex gap-2">
-                            <input type="number" class="form-control" min="${subasta.currentBid + 1}" placeholder="Oferta" />
-                            <button class="btn btn-success" onclick="hacerOferta('${subasta._id}', this)">Ofertar</button>
-                           </div>`
-                        : subasta.winner 
-                            ? `<span class="text-success fw-bold">Ganador: ${subasta.winner} ($${subasta.currentBid})</span>`
-                            : '<span class="text-muted">Cerrada sin ofertas</span>'
-                    }
-                </td>
-            `;
-            tbody.appendChild(fila);
-        });
-    } catch (error) {
-        console.error('Error al cargar subastas:', error);
-        alert('Error al cargar subastas');
-    }
-}
+        }
 
         async function hacerOferta(id, button) {
             const input = button.previousElementSibling;
