@@ -266,6 +266,14 @@
         document.getElementById('profile-name').textContent = userName;
         document.getElementById('profile-email').textContent = userEmail;
     </script>
+    
+    <script>
+        const token = localStorage.getItem('jwt_token');
+        if (!token) {
+          // No hay token => redirige al login
+          window.location.href = 'index.html';
+        }
+      </script>
       
 </body> <!-- Asegúrate de que esté antes del cierre del body -->
 </body>
