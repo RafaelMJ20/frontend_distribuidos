@@ -177,41 +177,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(checkAuth, 100);
 });
 
-// auth.js - Agrega esto al final del archivo
-async function authFetch(url, options = {}) {
-    const token = auth.getToken();
-    if (!token) {
-        window.location.href = 'login.html';
-        return;
-    }
-
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-    };
-
-    try {
-        const response = await fetch(url, {
-            ...options,
-            headers: {
-                ...headers,
-                ...options.headers
-            },
-            credentials: 'include'
-        });
-
-        if (response.status === 401) {
-            auth.removeToken();
-            window.location.href = 'login.html';
-            return;
-        }
-
-        return response;
-    } catch (error) {
-        console.error('Fetch error:', error);
-        throw error;
-    }
-}
 
 // Exporta la función si usas módulos
 if (typeof module !== 'undefined' && module.exports) {
