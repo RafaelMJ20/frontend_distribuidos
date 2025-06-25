@@ -129,6 +129,11 @@
         const API_URL = 'https://backend-distribuidos-auctions.onrender.com/api/auctions';
 
         window.onload = () => {
+            const token = localStorage.getItem('jwt_token');
+            if(!token){
+                window.location.href = '/login.html';
+                return;
+            }
             cargarSubastas();
             setInterval(cargarSubastas, 5000); // actualiza cada 5 segundos
         };
