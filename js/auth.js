@@ -36,12 +36,6 @@ const auth = {
 };
 
 async function authFetch(url, options = {}) {
-    const token = auth.getToken();
-    if (!token) {
-        window.location.href = 'login.html';
-        return;
-    }
-
     try {
         const response = await fetch(url, {
             ...options,
