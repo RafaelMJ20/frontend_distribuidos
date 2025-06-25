@@ -1,8 +1,8 @@
 
 // Configuración dinámica para desarrollo/producción
 const API_BASE_URL = window.location.hostname === 'localhost'
-    ? 'http://localhost:5001'
-    : 'http://localhost:5001/api';
+    ? 'https://backend-login-distribuidos.onrender.com/api'
+    : 'https://backend-login-distribuidos.onrender.com/api';
 
 const AUTH_API_URL = `${API_BASE_URL}/auth`;
 
