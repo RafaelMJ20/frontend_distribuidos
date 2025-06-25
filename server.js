@@ -8,7 +8,7 @@ app.use(express.static(path.join(__dirname)));
 // Ruta principal - verificar token antes de servir index.html
 app.get('/', (req, res) => {
   // Aquí puedes agregar lógica de verificación de token si lo prefieres
-  res.sendFile(path.join(__dirname, 'login.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Ruta /login - servir directamente sin verificación
